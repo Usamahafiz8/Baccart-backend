@@ -5,10 +5,10 @@ const CCCAddress = process.env.CCC_CONTRACT_ADDRESS;
 const infuraApiKey = process.env.Infura_Private_Key;
 
 class TokenTransferController {
-  constructor(privateKey, recipientAddress, amountToSend) {
+  constructor(privateKey, recipientAddress, cccAmountToSend) {
     this.privateKey = privateKey;
     this.recipientAddress = recipientAddress;
-    this.amountToSend = amountToSend*100000000;
+    this.cccAmountToSend = cccAmountToSend*100000000;
 
     this.infuraUrl = `https://polygon-mainnet.infura.io/v3/${infuraApiKey}`;
     this.provider = new ethers.providers.JsonRpcProvider(this.infuraUrl);
