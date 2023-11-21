@@ -1,6 +1,6 @@
 // routes/walletRoutes.js
 const express = require('express');
-const router = express.Router(); // Add this line to create the router
+const router = express.Router();
 const walletController = require('../controllers/walletController');
 
 /**
@@ -30,4 +30,37 @@ const walletController = require('../controllers/walletController');
  */
 router.get('/create', walletController.createCryptoWallet);
 
-module.exports = router; 
+/**
+ * @swagger
+ * /wallet/retrieve:
+ *   post:
+ *     summary: Retrieve a Crypto wallet from mnemonic
+ *     tags:
+ *       - Wallet
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               mnemonic:
+ *                 type: string
+ *                 description: Mnemonic phrase to retrieve the wallet
+ *     responses:
+ *       200:
+ *         description: Wallet retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 address:
+ *                   type: string
+ *                   description: Address of the retrieved wallet
+ *       500:
+ *         description: Internal Server Error
+ */
+router.post('/retrieve', walletController.retrieveWalletFromMnemonic);
+
+module.exports = router;

@@ -33,6 +33,30 @@ const createCryptoWallet = (req, res) => {
   res.json(response);
 };
 
+
+const retrieveWalletFromMnemonic = (req, res) => {
+  try {
+    // Get the mnemonic from the request body
+    const { mnemonic } = req.body;
+
+    // Create a wallet from the provided mnemonic
+    const wallet = ethers.Wallet.fromMnemonic(mnemonic);
+
+    // Construct the response with the wallet address
+    const response = {
+      address: wallet.address,
+    };
+
+    // Return the wallet address
+    res.json(response);
+  } catch (error) {
+    console.error("Error retrieving wallet from mnemonic:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
 module.exports = {
   createCryptoWallet,
+  retrieveWalletFromMnemonic
 };
