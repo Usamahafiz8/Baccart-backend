@@ -29,7 +29,7 @@ const router = express.Router();
  *               recipientAddress:
  *                 type: string
  *                 description: Address to receive CCC tokens
- *               cccAmountToSend:
+ *               amountToSend:
  *                 type: string
  *                 description: Amount of CCC tokens to send (in smallest unit)
  *     responses:
@@ -41,7 +41,7 @@ const router = express.Router();
  *         description: Internal server error.
  */
 router.post('/transferTokens', (req, res) => {
-  const { privateKey, recipientAddress, cccAmountToSend } = req.body;
+  const { privateKey, recipientAddress, amountToSend } = req.body;
 
   try {
     const infuraApiKey = "b1f33be1c1844b388461c085b20c0ef9";
@@ -50,7 +50,7 @@ router.post('/transferTokens', (req, res) => {
     const tokenController = new TokenTransferController(
       privateKey,
       recipientAddress,
-      cccAmountToSend,
+      amountToSend,
       tokenAddress,
       infuraApiKey
     );

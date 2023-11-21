@@ -1,14 +1,14 @@
 const ethers = require('ethers');
-const cccABI = require('../contractAbi/CCC.json')
+const cccABI = require('../contractAbi/CCC.json');
 require('dotenv').config();
 const CCCAddress = process.env.CCC_CONTRACT_ADDRESS;
 const infuraApiKey = process.env.Infura_Private_Key;
 
 class TokenTransferController {
-  constructor(privateKey, recipientAddress, cccAmountToSend) {
+  constructor(privateKey, recipientAddress, amountToSend) {
     this.privateKey = privateKey;
     this.recipientAddress = recipientAddress;
-    this.cccAmountToSend = cccAmountToSend*100000000;
+    this.amountToSend = amountToSend*100000000;
 
     this.infuraUrl = `https://polygon-mainnet.infura.io/v3/${infuraApiKey}`;
     this.provider = new ethers.providers.JsonRpcProvider(this.infuraUrl);
@@ -19,7 +19,7 @@ class TokenTransferController {
   async checkBalance() {
     try {
       const balance = await this.tokenContract.balanceOf(this.wallet.address);
-      console.log("CCC Token Balance:", balance.toString() / 100000000);
+      console.log("CCC Token Balance:", balance.toString()/100000000);
     } catch (error) {
       console.error("Error checking balance:", error.message);
     }
@@ -53,11 +53,18 @@ class TokenTransferController {
       const nonce = await this.wallet.getTransactionCount();
       const gasPrices = await this.wallet.getGasPrice();
 
+      console.log("Gas Prices (Wei):", gasPrices.toString());
+
       // Adjust the gas price calculation dynamically (increase by 10%)
       const gasPrice = gasPrices.add(gasPrices.div(10));
 
+      console.log("Adjusted Gas Price:", gasPrice.toString());
+
       const maticBalance = await this.wallet.getBalance();
       const totalGasFeesWei = gasPrice.mul(21000);
+
+
+      console.log("Total Gas Fees (Wei):", totalGasFeesWei.toString());
 
       if (maticBalance.lt(totalGasFeesWei.add(this.amountToSend))) {
         throw new Error("Insufficient MATIC funds for the transaction. Please add MATIC to cover gas fees.");
@@ -73,9 +80,7 @@ class TokenTransferController {
 
       await this.checkBalance();
 
-      res.json({ success: true, message: 'Tokens transferred successfully.', TransectionHash: `${tx.hash}`, 
-      
- });
+      res.json({ success: true, message: 'Tokens transferred successfully.', TransectionHash: `${tx.hash}` });
     } catch (error) {
       console.error("Error transferring CCC tokens:", error.message);
       res.status(500).json({ success: false, message: 'Error transferring tokens.', error: error.message });
