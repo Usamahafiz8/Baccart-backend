@@ -1,17 +1,19 @@
-const ethers = require("ethers");
+const ethers = require('ethers');
+const cccABI = require('../contractAbi/CCC.json')
+require('dotenv').config();
+const CCCAddress = process.env.CCC_CONTRACT_ADDRESS;
+const infuraApiKey = process.env.Infura_Private_Key;
 
 class TokenTransferController {
-  constructor(privateKey, recipientAddress, amountToSend, tokenAddress, infuraApiKey) {
+  constructor(privateKey, recipientAddress, amountToSend) {
     this.privateKey = privateKey;
     this.recipientAddress = recipientAddress;
-    this.amountToSend = amountToSend;
-    this.tokenAddress = tokenAddress;
-    this.infuraApiKey = infuraApiKey;
+    this.amountToSend = amountToSend*100000000;
 
     this.infuraUrl = `https://polygon-mainnet.infura.io/v3/${infuraApiKey}`;
     this.provider = new ethers.providers.JsonRpcProvider(this.infuraUrl);
     this.wallet = new ethers.Wallet(privateKey, this.provider);
-    this.tokenContract = new ethers.Contract(tokenAddress, require("./CCC.json"), this.wallet);
+    this.tokenContract = new ethers.Contract(CCCAddress, cccABI, this.wallet);
   }
 
   async checkBalance() {
@@ -44,16 +46,17 @@ class TokenTransferController {
     }
   }
 
-  async transferTokens() {
+  async transferTokensAPI(req, res) {
     try {
       await this.checkMaticBalance();
 
       const nonce = await this.wallet.getTransactionCount();
       const gasPrices = await this.wallet.getGasPrice();
-      const gasPrice = ethers.utils.parseUnits(gasPrices.div(99999999).toString(), 'gwei');
+
+      // Adjust the gas price calculation dynamically (increase by 10%)
+      const gasPrice = gasPrices.add(gasPrices.div(10));
 
       const maticBalance = await this.wallet.getBalance();
-
       const totalGasFeesWei = gasPrice.mul(21000);
 
       if (maticBalance.lt(totalGasFeesWei.add(this.amountToSend))) {
@@ -69,21 +72,15 @@ class TokenTransferController {
       console.log("Transaction Hash:", tx.hash);
 
       await this.checkBalance();
+
+      res.json({ success: true, message: 'Tokens transferred successfully.', TransectionHash: `${tx.hash}`, 
+      
+ });
     } catch (error) {
       console.error("Error transferring CCC tokens:", error.message);
+      res.status(500).json({ success: false, message: 'Error transferring tokens.', error: error.message });
     }
   }
 }
 
-// Example usage:
-const infuraApiKey = "f09fc916f9a046a8a62d9e2d00229b55";
-const privateKey = "YOUR_PRIVATE_KEY";
-const recipientAddress = "0xcadb05693aad671bb2187e12316daa22573ecf7e";
-const amountToSend = "100000000"; // 0.1 CCC
-const tokenAddress = "0x0c39c858f0F83c6DfFe5567828eAf85A060dd140";
-
-const tokenController = new TokenTransferController(privateKey, recipientAddress, amountToSend, tokenAddress, infuraApiKey);
-tokenController.checkBalance();
-tokenController.checkMaticBalance();
-tokenController.getGasPrices();
-tokenController.transferTokens();
+module.exports = TokenTransferController;

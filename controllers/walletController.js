@@ -11,13 +11,19 @@ const createCryptoWallet = (req, res) => {
   // Create a passphrase (you might want to securely handle passphrase creation and storage)
   const passphrase = 'your_secure_passphrase';
 
+  // Generate a random initialization vector (iv)
+  const iv = crypto.randomBytes(16);
+
+  // Ensure the key length is appropriate for AES-256-CBC (32 bytes)
+  const key = crypto.scryptSync(passphrase, 'salt', 32);
+
   // Encrypt the private key
-  const cipher = crypto.createCipher('aes-256-cbc', passphrase);
+  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
   let encryptedPrivateKey = cipher.update(wallet.privateKey, 'utf-8', 'hex');
   encryptedPrivateKey += cipher.final('hex');
 
   // Decrypt the private key (for demonstration purposes only)
-  const decipher = crypto.createDecipher('aes-256-cbc', passphrase);
+  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
   let decryptedPrivateKey = decipher.update(encryptedPrivateKey, 'hex', 'utf-8');
   decryptedPrivateKey += decipher.final('utf-8');
 
@@ -32,7 +38,6 @@ const createCryptoWallet = (req, res) => {
   // Return the mnemonic, wallet address, encrypted, and decrypted private key
   res.json(response);
 };
-
 
 const retrieveWalletFromMnemonic = (req, res) => {
   try {
