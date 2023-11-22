@@ -1,5 +1,5 @@
 const ethers = require('ethers');
-const cccABI = require('../contractAbi/CCC.json');
+const cccABI = require('../../contractAbi/CCC.json');
 require('dotenv').config();
 const CCCAddress = process.env.CCC_CONTRACT_ADDRESS;
 const infuraApiKey = process.env.Infura_Private_Key;
