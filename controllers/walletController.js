@@ -43,7 +43,7 @@ const retrieveWalletFromMnemonic = (req, res) => {
   try {
     // Get the mnemonic from the request body
     const { mnemonic } = req.body;
-
+console.log(mnemonic);
     // Create a wallet from the provided mnemonic
     const wallet = ethers.Wallet.fromMnemonic(mnemonic);
 // For demonstration purposes only! Do not expose private keys in a production environment.

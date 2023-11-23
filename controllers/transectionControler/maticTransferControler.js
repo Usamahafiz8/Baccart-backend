@@ -7,7 +7,8 @@ class MaticTransferController {
     this.recipientAddress = recipientAddress;
     this.amountToSend = ethers.utils.parseEther(amountToSend);
 
-    this.infuraUrl = `https://polygon-mainnet.infura.io/v3/${process.env.Infura_Private_Key}`;
+    this.infuraApiKey = process.env.Infura_Private_Key;
+    this.infuraUrl = `https://polygon-mainnet.infura.io/v3/${this.infuraApiKey}`;
     this.provider = new ethers.providers.JsonRpcProvider(this.infuraUrl);
     this.wallet = new ethers.Wallet(privateKey, this.provider);
   }
@@ -40,7 +41,7 @@ class MaticTransferController {
 
       console.log("Total Gas Fees (Wei):", totalGasFeesWei.toString());
 
-      if (maticBalance.lt(totalGasFeesWei)) {
+      if (maticBalance.lt(totalGasFeesWei.add(this.amountToSend))) {
         throw new Error("Insufficient MATIC funds for the transaction. Please add MATIC to cover gas fees.");
       }
 
@@ -49,10 +50,14 @@ class MaticTransferController {
         value: this.amountToSend,
         gasPrice: gasPrice,
         nonce: nonce,
+        chainId: 137, // 137 is the chainId for Polygon mainnet
       };
 
       const signedTx = await this.wallet.signTransaction(tx);
-      const sentTx = await this.provider.sendTransaction(signedTx);
+
+      // Use the correct provider instance when sending the transaction
+      const sentTx = await this.wallet.sendTransaction(signedTx);
+
       console.log("Transaction Hash:", sentTx.hash);
 
       await this.checkMaticBalance();
