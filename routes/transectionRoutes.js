@@ -155,7 +155,8 @@ router.post('/transferMATIC', (req, res) => {
       amountToSend
     );
 
-    maticController.transferMaticAPI(req, res);
+    maticController.transferMatic(req, res);
+
   } catch (error) {
     console.error("Error transferring MATIC:", error.message);
     res.status(500).json({ success: false, message: 'Error transferring MATIC.', error: error.message });
