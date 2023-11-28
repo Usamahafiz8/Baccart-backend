@@ -53,8 +53,6 @@ const getTransactionsList = async (walletAddress, res) => {
     
       return {
         hash: tx.hash,
-        from: tx.from,
-        to: tx.to,
         value: ethers.utils.formatUnits(tx.value, 'wei'),
         timestamp: new Date(tx.timeStamp * 1000),
         status: status,
