@@ -7,7 +7,7 @@ const router = express.Router();
 // Load environment variables from .env file
 dotenv.config();
 
-router.post("/transferGamePoints", async (req, res) => {
+router.post("/Convert-CCC-to-GameCoin", async (req, res) => {
   const { privateKey, amountToSend } = req.body;
 
   try {
@@ -48,7 +48,7 @@ const gameCoinBalanceController =
   new GameCoinController.GameCoinBalanceController();
 
 // Endpoint to fetch game coin balance
-router.get("/getGameCoinBalance/:walletAddress", async (req, res) => {
+router.get("/GameCoinBalance/:walletAddress", async (req, res) => {
   const { walletAddress } = req.params;
 
   try {

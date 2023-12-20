@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /GameCoin/transferGamePoints:
+ * /GameCoin/Convert-CCC-to-GameCoin:
  *   post:
  *     summary: Transfer game points (CC tokens) to another wallet
  *     tags: [Game Coin]
@@ -73,7 +73,7 @@
 
 /**
  * @swagger
- * /GameCoin/getGameCoinBalance/{walletAddress}:
+ * /GameCoin/GameCoinBalance/{walletAddress}:
  *   get:
  *     summary: Get game coin balance for a specific wallet
  *     tags: [Game Coin]
