@@ -5,23 +5,27 @@ const User = require("../../model/gamePoint");
 class WithdrawalRequestController {
   async createWithdrawalRequest(req, res, next) {
     try {
-      const { address, withdrawGameCoins } = req.body;
-      const status = "pending";
+      const { address, withdrawGameCoins, status } = req.body;
+
+      // Check if there are any pending withdrawal requests for the user
+      const pendingRequests = await WithdrawalRequest.find({
+        address,
+        status: "pending",
+      });
+
+      if (pendingRequests.length > 0) {
+        return res.status(400).json({
+          success: false,
+          message: "There is already a pending withdrawal request.",
+        });
+      }
+
       // Check if the user exists and has sufficient game coins
       const user = await User.findOne({ address });
       if (!user || user.gamePoints < withdrawGameCoins) {
         return res.status(400).json({
           success: false,
           message: "Insufficient game coins for withdrawal.",
-        });
-      }
-
-      // Check if the provided status is valid
-      if (!["pending", "approved", "rejected"].includes(status)) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Invalid status provided. Please provide 'pending', 'approved', or 'rejected'.",
         });
       }
 
