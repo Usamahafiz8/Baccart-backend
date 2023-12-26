@@ -39,15 +39,13 @@ const checkWin = async (req, res) => {
       const gamertableID = gamer.betInformation.table_ID;
       const gamewinamount = await ContractGameTable.findOne({ _id: gamertableID });
       const WinnerReward = gamewinamount.winners_Rewards
-      console.log(gamertableID, WinnerReward);
  
   if (!isNaN(betAmount) && !isNaN(WinnerReward)) {
     const winAmount = betAmount * WinnerReward;
     gameCoins.gamePoints = parseInt(gameCoins.gamePoints) + parseInt(winAmount);
-    console.log('Win Amount:', winAmount);
-  } else {
+   } else {
     console.error('Invalid bet amount or winners reward');
-    console.log('betAmount:', betAmount);
+
   }
 
     } else if (result === 'lose') {
