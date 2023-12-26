@@ -133,11 +133,8 @@
  *             properties:
  *               gamer_Address:
  *                 type: string
- *               table_ID:
- *                 type: string
  *             required:
  *               - gamer_Address
- *               - table_ID
  *     responses:
  *       '200':
  *         description: Successful operation

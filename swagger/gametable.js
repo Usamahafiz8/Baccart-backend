@@ -59,3 +59,40 @@
  *             example:
  *               error: Internal Server Error
  */
+/**
+ * @swagger
+ * /game-table/listGameTables:
+ *   get:
+ *     summary: Get a list of all game tables
+ *     tags:
+ *       - GameTable
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               gameTables:
+ *                 - table_ID: "1"
+ *                   total_Investor_Seats: "10"
+ *                   invest_Cer_Seats_Cost: "100"
+ *                   winners_Rewards: "500"
+ *                   bet_Size: "50"
+ *                   Bankers_Address: "0x123456789"
+ *                 - table_ID: "2"
+ *                   total_Investor_Seats: "8"
+ *                   invest_Cer_Seats_Cost: "150"
+ *                   winners_Rewards: "700"
+ *                   bet_Size: "75"
+ *                   Bankers_Address: "0x987654321"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: false
+ *               message: Internal Server Error
+ */
+
+
