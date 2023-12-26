@@ -1,5 +1,7 @@
 // controllers/gameTableController.js
 const ContractGameTable = require("../../model/GameTable");
+const Gamer = require("../../model/gamer");
+const Investor = require("../../model/investor");
 
 const createGameTable = async (req, res) => {
   try {
@@ -32,7 +34,9 @@ const createGameTable = async (req, res) => {
 
 const getAllGameTables = async (req, res) => {
   try {
-    const gameTables = await ContractGameTable.find();
+    const gameTables = await ContractGameTable.find()
+      .populate('gamers') // Populate gamers data
+      .populate('investors'); // Populate investors data
     res.status(200).json(gameTables);
   } catch (error) {
     console.error("Error retrieving game tables:", error);
