@@ -9,7 +9,8 @@ const gameTableSchema = new mongoose.Schema({
   bet_Size: { type: String },
   Bankers_Address: { type: String },
   gamers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Gamer' }],
-  investors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Investor' }]
+  investors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Investor' }],
+  status: { type: String, default: 'active' } 
 });
 
 const ContractGameTable = mongoose.model("gameTable", gameTableSchema);

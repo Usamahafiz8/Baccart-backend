@@ -7,9 +7,7 @@ const getGameTableDetails = async (req, res) => {
     const { table_ID } = req.params;
 
     // Find the game table by table_ID and populate the 'gamers' field
-    const gameTable = await ContractGameTable.findOne({
-      _id: table_ID,
-    }).populate("gamers");
+    const gameTable = await ContractGameTable.findOne({ _id: table_ID }).populate("gamers");
 
     if (!gameTable) {
       return res.status(404).json({ error: "Game table not found" });
@@ -23,6 +21,10 @@ const getGameTableDetails = async (req, res) => {
       betOn: gamer.betInformation.betOn,
     }));
 
+    // Calculate count of winners and losers
+    const winnersCount = gameTable.gamers.filter((gamer) => gamer.betInformation.win_or_lose === 'win').length;
+    const losersCount = gameTable.gamers.filter((gamer) => gamer.betInformation.win_or_lose === 'lose').length;
+
     // You can customize the response format based on your requirements
     const gameTableDetails = {
       table_ID: gameTable.table_ID,
@@ -33,6 +35,8 @@ const getGameTableDetails = async (req, res) => {
       Bankers_Address: gameTable.Bankers_Address,
       gamers: gamerDetails,
       investors: gameTable.investors,
+      winnersCount,
+      losersCount,
     };
 
     res.status(200).json({ success: true, gameTable: gameTableDetails });
@@ -41,7 +45,6 @@ const getGameTableDetails = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
-
 
 const getAllGameTableDetails = async (req, res) => {
   try {
@@ -53,7 +56,7 @@ const getAllGameTableDetails = async (req, res) => {
     }
 
     // Extract details for each game table
-    const allGameTableDetails = allGameTables.map((gameTable) => {
+    const allGameTableDetails = await Promise.all(allGameTables.map(async (gameTable) => {
       // Extract gamer details from the populated 'gamers' field
       const gamerDetails = gameTable.gamers.map((gamer) => ({
         _id: gamer._id,
@@ -61,6 +64,10 @@ const getAllGameTableDetails = async (req, res) => {
         result: gamer.betInformation.win_or_lose,
         betOn: gamer.betInformation.betOn,
       }));
+
+      // Calculate count of winners and losers
+      const winnersCount = gameTable.gamers.filter((gamer) => gamer.betInformation.win_or_lose === 'win').length;
+      const losersCount = gameTable.gamers.filter((gamer) => gamer.betInformation.win_or_lose === 'lose').length;
 
       // Return details for the current game table
       return {
@@ -73,8 +80,10 @@ const getAllGameTableDetails = async (req, res) => {
         Bankers_Address: gameTable.Bankers_Address,
         gamers: gamerDetails,
         investors: gameTable.investors,
+        winnersCount,
+        losersCount,
       };
-    });
+    }));
 
     res.status(200).json({ success: true, allGameTables: allGameTableDetails });
   } catch (error) {
@@ -83,4 +92,4 @@ const getAllGameTableDetails = async (req, res) => {
   }
 };
 
-module.exports = {getGameTableDetails,getAllGameTableDetails};
+module.exports = { getGameTableDetails, getAllGameTableDetails };
