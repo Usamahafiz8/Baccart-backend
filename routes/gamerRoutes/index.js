@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const joinGame = require("../../controllers/gamerControler/joinGame");
 const checkWin = require("../../controllers/gamerControler/gameResut");
+
 // @ts-ignore
 const getGamerDetails = require("../../controllers/gamerControler/gamerDetails");
 
@@ -59,5 +60,6 @@ router.post("/getGamerDetails", (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 module.exports = router;
