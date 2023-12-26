@@ -2,14 +2,13 @@
 const express = require("express");
 const router = express.Router();
 const gameTableController = require("../../controllers/gameTableController/index");
-const getGameTableDetails = require("../../controllers/gameTableController/gameTable")
+const GameTableDetails = require("../../controllers/gameTableController/gameTable")
 
 router.post("/create", gameTableController.createGameTable);
 router.get("/getAll", gameTableController.getAllGameTables);
 router.get('/listGameTables', gameTableController.listGameTables);
-router.get('/getDetails/:table_ID', getGameTableDetails);
-
-
+router.get('/getDetails/:table_ID', GameTableDetails.getGameTableDetails);
+router.get('/tablesDeatils', GameTableDetails.getAllGameTableDetails);
 
 
 module.exports = router;

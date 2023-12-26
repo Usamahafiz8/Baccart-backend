@@ -133,3 +133,35 @@
  *               success: false
  *               message: Internal Server Error
  */
+
+
+
+/**
+ * @swagger
+ * /game-table/tablesDeatils:
+ *   get:
+ *     summary: Get details of a specific game table
+ *     tags:
+ *       - GameTable
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *       404:
+ *         description: Game table not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: false
+ *               error: Game table not found
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: false
+ *               message: Internal Server Error
+ */
