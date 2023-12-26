@@ -10,12 +10,12 @@ const getGamerDetails = require("../../controllers/gamerControler/gamerDetails")
 router.post("/join", (req, res) => {
   try {
     // Extract necessary data from the request
-    const { gamer_Address, betSize, betOn, table_ID } = req.body;
+    const { gamer_Address, betAmount, betOn, table_ID } = req.body;
 
     // Call the controller function
     joinGame(req, res, {
       gamer_Address,
-      betSize,
+      betAmount,
       betOn,
       table_ID,
     });
@@ -29,13 +29,13 @@ router.post("/join", (req, res) => {
 router.post("/checkWin", (req, res) => {
   try {
     // Extract necessary data from the request
-    const { gamer_Address, _id, table_ID, result } = req.body;
+    const { _id, result } = req.body;
 
     // Call the controller function
     checkWin(req, res, {
-      gamer_Address,
+      
       _id,
-      table_ID,
+      
       result,
     });
   } catch (error) {

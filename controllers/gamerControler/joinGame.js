@@ -6,7 +6,7 @@ const ContractGameTable = require("../../model/GameTable");
 
 const joinGame = async (req, res) => {
     try {
-        const { gamer_Address, betSize, betOn, table_ID } = req.body;
+        const { gamer_Address, betAmount, betOn, table_ID } = req.body;
     
         // Validate the betOn value (assuming it can be "player", "banker", or "tie")
         if (!["player", "banker", "tie"].includes(betOn)) {
@@ -21,7 +21,7 @@ const joinGame = async (req, res) => {
           gamer = new Gamer({
             gamer_Address,
             betInformation: {
-              betSize,
+              betAmount,
               betOn,
               table_ID,
               startDate: Date.now(), // Add start date to betInformation

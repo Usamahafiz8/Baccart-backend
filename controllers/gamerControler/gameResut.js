@@ -2,23 +2,26 @@
 const mongoose = require('mongoose');
 const Gamer = require('../../model/gamer');
 const ContractGameTable = require('../../model/GameTable');
+const GameCoins = require('../../model/gamePoint');
+
+
 
 const checkWin = async (req, res) => {
   try {
-    const { gamer_Address, _id, table_ID, result } = req.body;
+    const { _id, result } = req.body;
 
-    // Find the gamer based on address, _id, and table_ID
-    const gamer = await Gamer.findOne({ gamer_Address, _id, 'betInformation.table_ID': table_ID });
+    // Find the gamer based on _id
+    const gamer = await Gamer.findOne({ _id }); // Pass an object as a parameter
 
     if (!gamer) {
       return res.status(404).json({ error: 'Gamer not found' });
     }
+    // Find the game coins record for the gamer using gamer _id
+    const gameCoins = await GameCoins.findOne({ address: gamer.gamer_Address });
 
-    // Find the corresponding game table
-    const gameTable = await ContractGameTable.findById(table_ID);
 
-    if (!gameTable) {
-      return res.status(404).json({ error: 'Game table not found' });
+    if (!gameCoins) {
+      return res.status(404).json({ error: 'Game coins not found for the gamer' });
     }
 
     // Update the win_or_lose field and set the end date based on user input
@@ -26,7 +29,36 @@ const checkWin = async (req, res) => {
     gamer.betInformation.endDate = Date.now();
     await gamer.save();
 
-    res.status(200).json({ message: `Gamer result updated: ${result}` });
+    
+    // Update game coins based on the result
+    if (result === 'win') {
+      
+      
+      // Multiply game coins by winners reward
+      const betAmount = parseInt(gamer.betInformation.betAmount);
+      const gamertableID = gamer.betInformation.table_ID;
+      const gamewinamount = await ContractGameTable.findOne({ _id: gamertableID });
+      const WinnerReward = gamewinamount.winners_Rewards
+      console.log(gamertableID, WinnerReward);
+ 
+  if (!isNaN(betAmount) && !isNaN(WinnerReward)) {
+    const winAmount = betAmount * WinnerReward;
+    gameCoins.gamePoints = parseInt(gameCoins.gamePoints) + parseInt(winAmount);
+    console.log('Win Amount:', winAmount);
+  } else {
+    console.error('Invalid bet amount or winners reward');
+    console.log('betAmount:', betAmount);
+  }
+
+    } else if (result === 'lose') {
+      // Deduct game coins
+      // You may adjust this logic based on your specific requirements
+      gameCoins.gamePoints = gameCoins.gamePoints - gamer.betInformation.betAmount; // Deduct bet amount for loss
+    }
+
+    await gameCoins.save();
+
+    res.status(200).json({ message: `Gamer result updated: ${result}, Game coins updated` });
   } catch (error) {
     console.error('Error checking win:', error);
     res.status(500).json({ error: 'Internal Server Error' });

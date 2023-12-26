@@ -20,7 +20,7 @@
  *             properties:
  *               gamer_Address:
  *                 type: string
- *               betSize:
+ *               betAmount:
  *                 type: string
  *               betOn:
  *                 type: string
@@ -28,7 +28,7 @@
  *                 type: string
  *             required:
  *               - gamer_Address
- *               - betSize
+ *               - betAmount
  *               - betOn
  *               - table_ID
  *     responses:
@@ -84,11 +84,7 @@
  *           schema:
  *             type: object
  *             properties:
- *               gamer_Address:
- *                 type: string
  *               _id:
- *                 type: string
- *               table_ID:
  *                 type: string
  *               result:
  *                 type: string
