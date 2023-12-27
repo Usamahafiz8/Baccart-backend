@@ -19,6 +19,8 @@ const getGameTableDetails = async (req, res) => {
       gamer_Address: gamer.gamer_Address,
       result: gamer.betInformation.win_or_lose,
       betOn: gamer.betInformation.betOn,
+      startTime:gamer.betInformation.startDate,
+      EndTime:gamer.betInformation.endDate,
     }));
 
     // Calculate count of winners and losers
@@ -64,6 +66,8 @@ const getAllGameTableDetails = async (req, res) => {
         gamer_Address: gamer.gamer_Address,
         result: gamer.betInformation.win_or_lose,
         betOn: gamer.betInformation.betOn,
+        startTime:gamer.betInformation.startDate,
+        EndTime:gamer.betInformation.endDate,
       }));
 
       // Calculate count of winners and losers
@@ -84,6 +88,7 @@ const getAllGameTableDetails = async (req, res) => {
         winnersCount,
         losersCount,
         Region:gameTable.Region
+         
       };
     }));
 
