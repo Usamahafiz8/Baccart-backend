@@ -8,19 +8,23 @@ const createGameTable = async (req, res) => {
     const {
       table_ID,
       total_Investor_Seats,
-      investor_Cer_Seats_Cost,
+      per_Share_Cost,
       winners_Rewards,
       bet_Size,
       Bankers_Address,
+      Region,
+      status
     } = req.body;
 
     const newGameTable = new ContractGameTable({
       table_ID,
       total_Investor_Seats,
-      investor_Cer_Seats_Cost,
+      per_Share_Cost,
       winners_Rewards,
       bet_Size,
       Bankers_Address,
+      Region,
+      status
     });
 
     await newGameTable.save();

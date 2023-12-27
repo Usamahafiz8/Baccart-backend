@@ -7,6 +7,7 @@ const GamePoint = require("./routes/CoinsConversionRoutes/index");
 const WithDraw = require("./routes/withdrawRequest/index");
 const GameTable = require("./routes/gameTableRoutes/index");
 const Gamer = require("./routes/gamerRoutes/index");
+const Invstor = require("./routes/InvestorRoutes");
 
 const swaggerMiddleware = require("./middlewares/swaggerMiddleware");
 const cors = require("cors");
@@ -31,6 +32,8 @@ app.use("/GameCoin", GamePoint);
 app.use("/withdraw", WithDraw);
 app.use("/game-table", GameTable);
 app.use("/gamer", Gamer);
+app.use("/investor", Invstor);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

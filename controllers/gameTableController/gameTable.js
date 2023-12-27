@@ -29,7 +29,7 @@ const getGameTableDetails = async (req, res) => {
     const gameTableDetails = {
       table_ID: gameTable.table_ID,
       total_Investor_Seats: gameTable.total_Investor_Seats,
-      investor_Cer_Seats_Cost: gameTable.investor_Cer_Seats_Cost,
+      per_Share_Cost: gameTable.per_Share_Cost,
       winners_Rewards: gameTable.winners_Rewards,
       bet_Size: gameTable.bet_Size,
       Bankers_Address: gameTable.Bankers_Address,
@@ -37,6 +37,7 @@ const getGameTableDetails = async (req, res) => {
       investors: gameTable.investors,
       winnersCount,
       losersCount,
+      Region:gameTable.Region
     };
 
     res.status(200).json({ success: true, gameTable: gameTableDetails });
@@ -74,7 +75,7 @@ const getAllGameTableDetails = async (req, res) => {
         _ID: gameTable._id,
         table_ID: gameTable.table_ID,
         total_Investor_Seats: gameTable.total_Investor_Seats,
-        investor_Cer_Seats_Cost: gameTable.investor_Cer_Seats_Cost,
+        per_Share_Cost: gameTable.per_Share_Cost,
         winners_Rewards: gameTable.winners_Rewards,
         bet_Size: gameTable.bet_Size,
         Bankers_Address: gameTable.Bankers_Address,
@@ -82,6 +83,7 @@ const getAllGameTableDetails = async (req, res) => {
         investors: gameTable.investors,
         winnersCount,
         losersCount,
+        Region:gameTable.Region
       };
     }));
 
