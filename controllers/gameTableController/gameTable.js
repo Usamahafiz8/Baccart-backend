@@ -21,6 +21,7 @@ const getGameTableDetails = async (req, res) => {
       betOn: gamer.betInformation.betOn,
       startTime:gamer.betInformation.startDate,
       EndTime:gamer.betInformation.endDate,
+      OriginalBetWin:gamer.betInformation.OriginalBetWin
     }));
 
     // Calculate count of winners and losers
@@ -68,6 +69,7 @@ const getAllGameTableDetails = async (req, res) => {
         betOn: gamer.betInformation.betOn,
         startTime:gamer.betInformation.startDate,
         EndTime:gamer.betInformation.endDate,
+        OriginalBetWin:gamer.betInformation.OriginalBetWin
       }));
 
       // Calculate count of winners and losers

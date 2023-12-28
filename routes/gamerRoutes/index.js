@@ -30,13 +30,13 @@ router.post("/join", (req, res) => {
 router.post("/checkWin", (req, res) => {
   try {
     // Extract necessary data from the request
-    const { _id, result } = req.body;
+    const { _id, OriginalBetWin, result } = req.body;
 
     // Call the controller function
     checkWin(req, res, {
       
       _id,
-      
+      OriginalBetWin,
       result,
     });
   } catch (error) {

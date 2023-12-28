@@ -23,9 +23,11 @@ const getGamerDetails = async (req, res) => {
         table_ID: gamer.betInformation.table_ID._id,
         betInformation: {
           betOn: gamer.betInformation.betOn,
+          betOnbetAmount: gamer.betInformation.betAmount,
           win_or_lose: gamer.betInformation.win_or_lose,
           startDate: gamer.betInformation.startDate,
-          // Add other relevant bet information fields here
+          EndTime:gamer.betInformation.endDate,
+          OriginalBetWin:gamer.betInformation.OriginalBetWin
         },
       })),
     };

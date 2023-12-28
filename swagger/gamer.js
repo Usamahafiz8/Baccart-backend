@@ -86,12 +86,13 @@
  *             properties:
  *               _id:
  *                 type: string
+ *               OriginalBetWin:
+ *                 type: string
  *               result:
  *                 type: string
  *             required:
- *               - gamer_Address
  *               - _id
- *               - table_ID
+ *               - OriginalBetWin
  *               - result
  *     responses:
  *       '200':

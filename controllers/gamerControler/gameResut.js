@@ -8,7 +8,7 @@ const GameCoins = require('../../model/gamePoint');
 
 const checkWin = async (req, res) => {
   try {
-    const { _id, result } = req.body;
+    const { _id,OriginalBetWin, result } = req.body;
 
     // Find the gamer based on _id
     const gamer = await Gamer.findOne({ _id }); // Pass an object as a parameter
@@ -26,6 +26,7 @@ const checkWin = async (req, res) => {
 
     // Update the win_or_lose field and set the end date based on user input
     gamer.betInformation.win_or_lose = result; // 'win', 'lose', or 'tie'
+    gamer.betInformation.OriginalBetWin = OriginalBetWin; 
     gamer.betInformation.endDate = Date.now();
     await gamer.save();
 
