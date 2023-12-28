@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const gameTableSchema = new mongoose.Schema({
   table_ID: { type: String, required: true },
   total_Investor_Seats: { type: Number },
+  Remaining_Shares: { type: Number },
   per_Share_Cost: { type: Number },
   winners_Rewards: { type: Number, default: 0 },
   bet_Size: { type: Number },

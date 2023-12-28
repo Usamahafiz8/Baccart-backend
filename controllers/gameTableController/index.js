@@ -16,9 +16,11 @@ const createGameTable = async (req, res) => {
       status
     } = req.body;
 
+    const Remaining_Shares = total_Investor_Seats
     const newGameTable = new ContractGameTable({
       table_ID,
       total_Investor_Seats,
+      Remaining_Shares,
       per_Share_Cost,
       winners_Rewards,
       bet_Size,

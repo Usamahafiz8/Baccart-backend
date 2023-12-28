@@ -79,6 +79,7 @@ const getAllGameTableDetails = async (req, res) => {
       // Return details for the current game table
       return {
         _ID: gameTable._id,
+        Status:gameTable.status,
         table_ID: gameTable.table_ID,
         total_Investor_Seats: gameTable.total_Investor_Seats,
         per_Share_Cost: gameTable.per_Share_Cost,
@@ -89,7 +90,7 @@ const getAllGameTableDetails = async (req, res) => {
         investors: gameTable.investors,
         winnersCount,
         losersCount,
-        Region:gameTable.Region
+        Region:gameTable.Region,
          
       };
     }));
